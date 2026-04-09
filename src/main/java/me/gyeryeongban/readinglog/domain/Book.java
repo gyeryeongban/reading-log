@@ -1,11 +1,14 @@
 package me.gyeryeongban.readinglog.domain;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 public class Book {
 
     @Id
@@ -32,6 +35,13 @@ public class Book {
     protected Book() {}
 
     public Book(String title, String author, String publisher, BookStatus status) {
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.status = status;
+    }
+
+    public void update(String title, String author, String publisher, BookStatus status) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
