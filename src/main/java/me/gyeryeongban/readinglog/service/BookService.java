@@ -32,4 +32,12 @@ public class BookService {
     public void delete(Long id) {
         bookRepository.deleteById(id);
     }
+
+    @Transactional
+    public Book update(Long id, Book bookDetails) {
+        Book book = bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다. id=" + id));
+        book.update(bookDetails.getTitle(), bookDetails.getAuthor(), bookDetails.getPublisher(), bookDetails.getStatus());
+
+        return book;
+    }
 }
