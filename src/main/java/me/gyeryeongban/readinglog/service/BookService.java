@@ -1,6 +1,7 @@
 package me.gyeryeongban.readinglog.service;
 
 import me.gyeryeongban.readinglog.domain.Book;
+import me.gyeryeongban.readinglog.domain.BookStatus;
 import me.gyeryeongban.readinglog.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,5 +40,9 @@ public class BookService {
         book.update(bookDetails.getTitle(), bookDetails.getAuthor(), bookDetails.getPublisher(), bookDetails.getStatus());
 
         return book;
+    }
+
+    public List<Book> getBooksByStatus(BookStatus status) {
+        return bookRepository.findByStatus(status);
     }
 }
