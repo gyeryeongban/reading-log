@@ -15,7 +15,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping("/books")
+    @GetMapping
     public List<Book> getAllBooks(@RequestParam(required = false) BookStatus status) {
         if (status != null) {
             return bookService.getBooksByStatus(status);
