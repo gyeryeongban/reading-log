@@ -1,6 +1,7 @@
 package me.gyeryeongban.readinglog.controller;
 
 import me.gyeryeongban.readinglog.domain.Book;
+import me.gyeryeongban.readinglog.domain.BookStatus;
 import me.gyeryeongban.readinglog.service.BookService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -14,8 +15,11 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping
-    public List<Book> getAllBooks() {
+    @GetMapping("/books")
+    public List<Book> getAllBooks(@RequestParam(required = false) BookStatus status) {
+        if (status != null) {
+            return bookService.getBooksByStatus(status);
+        }
         return bookService.findAll();
     }
 
