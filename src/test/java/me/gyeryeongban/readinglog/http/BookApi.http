@@ -1,0 +1,16 @@
+### 1. 존재하지 않는 책 조회
+GET http://localhost:8080/books/9999
+Accept: application/json
+
+### 2. 잘못된 필드값 전송
+POST http://localhost:8080/books
+Content-Type: application/json
+
+{
+  "title": "",
+  "author": "gyeryeongban"
+}
+
+### 3. 전체 책 목록 조회
+GET http://localhost:8080/books
+Accept: application/json
