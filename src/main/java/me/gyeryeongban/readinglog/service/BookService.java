@@ -2,6 +2,7 @@ package me.gyeryeongban.readinglog.service;
 
 import me.gyeryeongban.readinglog.domain.Book;
 import me.gyeryeongban.readinglog.domain.BookStatus;
+import me.gyeryeongban.readinglog.exception.BookNotFoundException;
 import me.gyeryeongban.readinglog.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ public class BookService {
     }
 
     public Book findById(Long id) {
-        return bookRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 책이 없습니다."));
+        return bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("해당 책이 없습니다. (ID: " + id + ")"));
     }
 
     @Transactional
