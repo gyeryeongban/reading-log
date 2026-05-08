@@ -1,7 +1,11 @@
 package me.gyeryeongban.readinglog.service;
 
+import lombok.RequiredArgsConstructor;
 import me.gyeryeongban.readinglog.domain.Book;
 import me.gyeryeongban.readinglog.domain.BookStatus;
+import me.gyeryeongban.readinglog.dto.BookRequestDto;
+import me.gyeryeongban.readinglog.dto.BookResponseDto;
+import me.gyeryeongban.readinglog.dto.mapper.BookMapper;
 import me.gyeryeongban.readinglog.exception.BookNotFoundException;
 import me.gyeryeongban.readinglog.repository.BookRepository;
 import org.springframework.stereotype.Service;
@@ -10,11 +14,16 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
-    public BookService(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
+    @Transactional
+    public BookResponseDto save(BookRequestDto bookRequestDto) {
+        Book book = bookMapper.toEntity(bookRequestDto);
+        Book savedBook = bookRepository.save(book);
+        return bookMapper.toDto(savedBook);
     }
 
     public List<Book> findAll() {
