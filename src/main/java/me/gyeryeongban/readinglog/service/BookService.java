@@ -10,6 +10,8 @@ import me.gyeryeongban.readinglog.exception.BookNotFoundException;
 import me.gyeryeongban.readinglog.repository.BookRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 import java.util.List;
 
 @Service
@@ -54,5 +56,12 @@ public class BookService {
 
     public List<Book> getBooksByStatus(BookStatus status) {
         return bookRepository.findByStatus(status);
+    }
+
+    public Page<BookResponseDto> getBooks(BookStatus status, Pageable pageable) {
+        Page<Book> page = (status == null)
+                ? bookRepository.findAll(pageable)
+                : bookRepository.findByStatus(status, pageable);  // 기존 findByStatus 활용
+        return page.map(bookMapper::toDto);
     }
 }

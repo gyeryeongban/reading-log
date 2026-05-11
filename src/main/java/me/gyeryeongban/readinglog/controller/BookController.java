@@ -2,9 +2,12 @@ package me.gyeryeongban.readinglog.controller;
 
 import me.gyeryeongban.readinglog.domain.Book;
 import me.gyeryeongban.readinglog.domain.BookStatus;
+import me.gyeryeongban.readinglog.dto.BookResponseDto;
 import me.gyeryeongban.readinglog.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import org.springframework.data.domain.Pageable;
 
 @RestController
 @RequestMapping("/books")
@@ -15,17 +18,15 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping
-    public List<Book> getAllBooks(@RequestParam(required = false) BookStatus status) {
-        if (status != null) {
-            return bookService.getBooksByStatus(status);
-        }
-        return bookService.findAll();
-    }
-
     @GetMapping("/{id}")
     public Book getBook(@PathVariable long id) {
         return bookService.findById(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<BookResponseDto>> getBooks(
+            @RequestParam(required = false) BookStatus status, Pageable pageable) {
+        return ResponseEntity.ok(bookService.getBooks(status, pageable));
     }
 
     @PostMapping
